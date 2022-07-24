@@ -1,7 +1,7 @@
 package com.formacionbdi.springboot.app.items.springbootservicioitem.controllers;
 
 import com.formacionbdi.springboot.app.items.springbootservicioitem.models.Item;
-import com.formacionbdi.springboot.app.items.springbootservicioitem.models.Producto;
+import com.formacionbdi.springboot.app.commons.springbootserviciocommons.models.entity.Producto;
 import com.formacionbdi.springboot.app.items.springbootservicioitem.models.service.ItemService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
@@ -34,11 +34,12 @@ public class ItemController {
   @Autowired
   private CircuitBreakerFactory cbFactory;
 
-  @Value("${configuracion.texto}")
+  //@Value("${configuracion.texto}")
   private String texto;
 
   @Autowired
   @Qualifier("serviceFeign")
+  //@Qualifier("serviceRestTemplate")
   private ItemService itemService;
 
   @GetMapping("/listar")
@@ -110,6 +111,24 @@ public class ItemController {
     }
 
     return new ResponseEntity<Map<String, String>>(json, HttpStatus.OK);
+  }
+
+  @PostMapping("/crear")
+  @ResponseStatus(HttpStatus.CREATED)
+  public Producto crear(@RequestBody Producto producto) {
+    return itemService.save(producto);
+  }
+
+  @PutMapping("/editar/{id}")
+  @ResponseStatus(HttpStatus.CREATED)
+  public Producto editar(@RequestBody Producto producto, @PathVariable Long id) {
+    return itemService.update(producto, id);
+  }
+
+  @DeleteMapping("/eliminar/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void eliminar(@PathVariable Long id) {
+    itemService.delete(id);
   }
 
 }

@@ -1,5 +1,6 @@
 package com.formacionbdi.springboot.app.items.springbootservicioitem.models;
 
+import com.formacionbdi.springboot.app.commons.springbootserviciocommons.models.entity.Producto;
 import lombok.Getter;
 import lombok.Setter;
 
